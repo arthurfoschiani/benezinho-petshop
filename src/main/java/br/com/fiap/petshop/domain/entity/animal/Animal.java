@@ -11,43 +11,39 @@ import java.util.Collections;
 import java.util.Set;
 
 
-
+@Entity
+@Table(name = "TB_ANIMAL")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Animal {
-
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_ANIMAL")
+    @Column(name = "ID_ANIMAL")
     private Long id;
-
-
+    @Column(name = "NM_ANIMAL")
     private String nome;
-
+    @Column(name = "SX_ANIMAL")
+    @Enumerated(EnumType.STRING)
     private Sexo sexo;
-
+    @Column(name = "DT_NASC")
     private LocalDate nascimento;
-
+    @Column(name = "RC_ANIMAL")
     private String raca;
-
-
+    @Column(name = "DSC_ANIMAL")
     private String descricao;
-
+    @Column(name = "OBS_ANIMAL")
     private String observacao;
-
-
+    @Column(name = "TP_ANIMAL")
     private String tipo;
-
-
-
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "DONO", referencedColumnName = "ID_PESSOA", foreignKey = @ForeignKey(name = "FK_ANIMAL_DONO"))
     private Pessoa dono;
-
-
 
     public Animal() {
     }
 
-
     public Animal(String tipo) {
         this.tipo = tipo;
     }
-
 
     public Animal(Long id, String nome, Sexo sexo, LocalDate nascimento, String raca, String descricao, String observacao, String tipo, Pessoa dono) {
         this.id = id;
